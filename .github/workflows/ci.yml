@@ -15,22 +15,24 @@ jobs:
       # Optional. With the secret set, the authenticated checks run too; without it they skip.
       ELECTE_API_KEY: ${{ secrets.ELECTE_API_KEY }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: '3.12'
-      - run: python -m unittest discover -s python -p 'test_*.py' -v
-      - uses: actions/setup-node@v4
+      - run: python -m unittest test_live -v
+        working-directory: python
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
-      - run: node --test node/
+      - run: node --test
+        working-directory: node
       - run: bash -n curl/examples.sh
 
   spec-drift:
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Compare the snapshot with the live OpenAPI document
         run: |
           curl -fsSL 'https://api.electe.net/?path=openapi' -o live.yaml
