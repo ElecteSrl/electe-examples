@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 6 * * 1'   # Mondays: the live endpoints and the spec snapshot are checked weekly
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    env:
+      # Optional. With the secret set, the authenticated checks run too; without it they skip.
+      ELECTE_API_KEY: ${{ secrets.ELECTE_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s python -p 'test_*.py' -v
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node --test node/
+      - run: bash -n curl/examples.sh
+
+  spec-drift:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - name: Compare the snapshot with the live OpenAPI document
+        run: |
+          curl -fsSL 'https://api.electe.net/?path=openapi' -o live.yaml
+          tail -n +4 openapi/electe-platform-api.yaml | diff - live.yaml && echo "snapshot is current" || { echo "::warning::openapi/electe-platform-api.yaml is behind the live document — refresh it"; exit 1; }

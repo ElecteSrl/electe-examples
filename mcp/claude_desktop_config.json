@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "electe": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://mcp.electe.net/sse",
+        "--header",
+        "Authorization:${AUTH_HEADER}"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer <YOUR_API_KEY>"
+      }
+    }
+  }
+}

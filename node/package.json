@@ -1,0 +1,12 @@
+{
+  "name": "electe-examples-node",
+  "private": true,
+  "type": "module",
+  "description": "Examples against the ELECTE Platform API v1 — no dependencies, Node 18+",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "test": "node --test",
+    "whoami": "node whoami.mjs",
+    "workspaces": "node list-workspaces.mjs"
+  }
+}

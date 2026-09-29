@@ -1,0 +1,53 @@
+{
+  "name": "ELECTE — list workspaces",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "1a1d7c2e-0000-4000-8000-000000000001",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "url": "https://api.electe.net/v1/workspaces",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            { "name": "limit", "value": "100" },
+            { "name": "offset", "value": "0" }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [{ "name": "Accept", "value": "application/json" }]
+        },
+        "options": {}
+      },
+      "id": "1a1d7c2e-0000-4000-8000-000000000002",
+      "name": "GET /v1/workspaces",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [260, 0],
+      "credentials": {
+        "httpBearerAuth": { "id": "", "name": "ELECTE API key" }
+      }
+    },
+    {
+      "parameters": { "fieldToSplitOut": "data", "options": {} },
+      "id": "1a1d7c2e-0000-4000-8000-000000000003",
+      "name": "One item per workspace",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [520, 0]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": { "main": [[{ "node": "GET /v1/workspaces", "type": "main", "index": 0 }]] },
+    "GET /v1/workspaces": { "main": [[{ "node": "One item per workspace", "type": "main", "index": 0 }]] }
+  },
+  "settings": { "executionOrder": "v1" }
+}

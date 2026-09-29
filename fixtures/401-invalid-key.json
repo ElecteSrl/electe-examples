@@ -1,0 +1,7 @@
+{
+  "type": "https://api.electe.net/problems/unauthorized",
+  "title": "Authentication required",
+  "status": 401,
+  "code": "UNAUTHORIZED",
+  "detail": "The API key is not valid, has been revoked, or has expired."
+}

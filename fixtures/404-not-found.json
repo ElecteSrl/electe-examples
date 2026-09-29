@@ -1,0 +1,7 @@
+{
+  "type": "https://api.electe.net/problems/not-found",
+  "title": "Not found",
+  "status": 404,
+  "code": "NOT_FOUND",
+  "detail": "No route for /v1/nope. See https://api.electe.net/ for the current routes."
+}

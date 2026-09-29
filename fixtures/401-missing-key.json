@@ -1,0 +1,7 @@
+{
+  "type": "https://api.electe.net/problems/unauthorized",
+  "title": "Authentication required",
+  "status": 401,
+  "code": "UNAUTHORIZED",
+  "detail": "Send an API key as `Authorization: Bearer <key>`. Create one at https://platform.electe.net."
+}
